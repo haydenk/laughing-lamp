@@ -1,0 +1,24 @@
+name: Trigger Event Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: "Message to send to another repository workflow"
+        required: true
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: octokit/request-action@v2.x
+        id: get_latest_release
+        with:
+          route: POST /repos/{owner}/{repo}/dispatch
+          owner: haydenk
+          repo: symmetrical-couscous
+          output: |
+            message: "${{ github.event.inputs.message }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
