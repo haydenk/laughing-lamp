@@ -22,5 +22,5 @@ jobs:
               https://api.github.com/repos/haydenk/symmetrical-couscous/dispatches \
               -d "{\"event_type\": \"trigger-workflow\", \"client_payload\": {\"message\": \"${{ github.event.inputs.message }}\", \"unit\": false, \"integration\": true}}"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
       - run: "echo latest release: '${{ steps.trigger_request.outputs.data }}'"
