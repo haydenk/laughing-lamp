@@ -14,9 +14,8 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: get_latest_release
         with:
-          route: POST /repos/{owner}/{repo}/dispatch
-          owner: haydenk
-          repo: symmetrical-couscous
+          route: POST /repos/haydenk/symmetrical-couscous/dispatch
+          mediaType: json
           output: |
             message: "${{ github.event.inputs.message }}"
         env:
