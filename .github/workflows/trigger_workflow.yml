@@ -11,13 +11,16 @@ jobs:
   trigger:
     runs-on: ubuntu-latest
     steps:
-      - uses: octokit/request-action@v2.x
-        id: get_latest_release
-        with:
-          route: POST /repos/haydenk/symmetrical-couscous/dispatch
-          mediaType: json
-          output: |
-            message: "${{ github.event.inputs.message }}"
+      - name: "Trigger Workflow"
+        id: trigger_request
+        run: |
+          curl -L \
+              -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ secrets.PAT }}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              https://api.github.com/repos/haydenk/symmetrical-couscous/dispatches \
+              -d "{\"message\":\"${{ github.event.inputs.message }}\"}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
+      - run: "echo latest release: '${{ steps.trigger_request.outputs.data }}'"
